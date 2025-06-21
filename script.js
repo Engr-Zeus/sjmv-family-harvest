@@ -193,65 +193,48 @@ class ThanksgivingCalendar {
             return;
         }
 
-        // BACKEND INTEGRATION COMMENTED OUT FOR NOW
-        /*
+        // BACKEND INTEGRATION - ENABLED
         // Send data to backend
         try {
+            const requestData = { dateKey, name, phone, mass };
+            console.log('Sending data to backend:', requestData);
+            
             const response = await fetch('/api/attendee', {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ dateKey, name, phone, mass })
+                headers: { 
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify(requestData)
             });
-            const result = await response.json();
+            
+            console.log('Response status:', response.status);
+            
             if (!response.ok) {
-                alert(result.error || 'Failed to add attendee.');
+                const errorText = await response.text();
+                console.error('Backend error response:', errorText);
+                alert('Failed to add attendee: ' + errorText);
                 return;
             }
+            
+            const result = await response.json();
+            console.log('Backend success response:', result);
+            
             // On success, fetch updated data and update UI
             await this.fetchCalendarData();
             this.generateCalendar();
             this.closeModal();
             this.showSuccessMessage(name, dateKey);
         } catch (error) {
-            alert('Network error: Could not connect to backend.');
+            console.error('Backend error:', error);
+            alert('Network error: Could not connect to backend. Using local storage instead.');
+            
+            // Fallback to local storage
+            this.addAttendeeToLocalStorage(dateKey, name, phone, mass);
         }
-        */
-
-        // LOCAL STORAGE VERSION (WORKING)
-        // Check if name already exists for this date
-        const attendees = this.calendarData[dateKey] || [];
-        if (attendees.some(attendee => attendee.name.toLowerCase() === name.toLowerCase())) {
-            alert('Someone with this name has already signed up for this date.');
-            return;
-        }
-        
-        // Add new attendee
-        if (!this.calendarData[dateKey]) {
-            this.calendarData[dateKey] = [];
-        }
-        
-        this.calendarData[dateKey].push({
-            name: name,
-            phone: phone,
-            mass: mass,
-            addedAt: new Date().toISOString()
-        });
-        
-        // Save to localStorage
-        this.saveCalendarData();
-        
-        // Update calendar display
-        this.generateCalendar();
-        
-        // Close modal
-        this.closeModal();
-        
-        // Show success message
-        this.showSuccessMessage(name, dateKey);
     }
 
-    // Fetch calendar data from backend (COMMENTED OUT)
-    /*
+    // Fetch calendar data from backend - ENABLED
     async fetchCalendarData() {
         try {
             const response = await fetch('/api/calendar');
@@ -259,10 +242,10 @@ class ThanksgivingCalendar {
                 this.calendarData = await response.json();
             }
         } catch (error) {
+            console.error('Failed to fetch from backend:', error);
             // Fallback: keep local data
         }
     }
-    */
 
     // Show success message
     showSuccessMessage(name, dateKey) {
@@ -357,6 +340,40 @@ class ThanksgivingCalendar {
         link.download = `thanksgiving-calendar-public-${new Date().toISOString().split('T')[0]}.json`;
         link.click();
     }
+
+    // Fallback method for local storage when backend is unavailable
+    addAttendeeToLocalStorage(dateKey, name, phone, mass) {
+        // Check if name already exists for this date
+        const attendees = this.calendarData[dateKey] || [];
+        if (attendees.some(attendee => attendee.name.toLowerCase() === name.toLowerCase())) {
+            alert('Someone with this name has already signed up for this date.');
+            return;
+        }
+        
+        // Add new attendee
+        if (!this.calendarData[dateKey]) {
+            this.calendarData[dateKey] = [];
+        }
+        
+        this.calendarData[dateKey].push({
+            name: name,
+            phone: phone,
+            mass: mass,
+            addedAt: new Date().toISOString()
+        });
+        
+        // Save to localStorage
+        this.saveCalendarData();
+        
+        // Update calendar display
+        this.generateCalendar();
+        
+        // Close modal
+        this.closeModal();
+        
+        // Show success message
+        this.showSuccessMessage(name, dateKey);
+    }
 }
 
 // Add CSS animations for success message
@@ -390,14 +407,12 @@ document.head.appendChild(style);
 document.addEventListener('DOMContentLoaded', async () => {
     window.calendarApp = new ThanksgivingCalendar();
     
-    // BACKEND FETCH COMMENTED OUT FOR NOW
-    /*
+    // BACKEND FETCH - ENABLED
     // Try to fetch data from backend on load
     if (window.calendarApp.fetchCalendarData) {
         await window.calendarApp.fetchCalendarData();
         window.calendarApp.generateCalendar();
     }
-    */
     
     // Add a small debug panel for development (can be removed in production)
     if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
@@ -445,4 +460,4 @@ document.addEventListener('DOMContentLoaded', function() {
             }, 800); // Match the CSS transition duration
         }
     }, 4000); // Show for 4 seconds
-}); 
+});
