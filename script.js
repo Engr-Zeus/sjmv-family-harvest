@@ -428,4 +428,21 @@ document.addEventListener('DOMContentLoaded', async () => {
         `;
         document.body.appendChild(debugPanel);
     }
+});
+
+// Welcome message functionality
+document.addEventListener('DOMContentLoaded', function() {
+    const welcomeOverlay = document.getElementById('welcomeOverlay');
+    
+    // Hide welcome message after 4 seconds
+    setTimeout(() => {
+        if (welcomeOverlay) {
+            welcomeOverlay.classList.add('fade-out');
+            
+            // Remove the overlay from DOM after fade animation completes
+            setTimeout(() => {
+                welcomeOverlay.style.display = 'none';
+            }, 800); // Match the CSS transition duration
+        }
+    }, 4000); // Show for 4 seconds
 }); 
