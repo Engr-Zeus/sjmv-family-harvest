@@ -116,19 +116,6 @@ class ThanksgivingCalendar {
         modalContent.innerHTML = `
             <h3>${this.formatDateDisplay(date)}</h3>
             
-            <div class="attendees-list">
-                <h4>Who's Coming:</h4>
-                ${attendees.length > 0 ? 
-                    attendees.map(attendee => `
-                        <div class="attendee-item">
-                            <div class="attendee-name">${attendee.name}</div>
-                            <div class="attendee-mass">Mass: ${attendee.mass}</div>
-                        </div>
-                    `).join('') : 
-                    '<div class="no-attendees">No one has signed up yet. Be the first!</div>'
-                }
-            </div>
-            
             <form id="attendeeForm">
                 <div class="form-group">
                     <label for="attendeeName">Your Name:</label>
@@ -153,6 +140,20 @@ class ThanksgivingCalendar {
                 
                 <button type="submit" class="btn">Add My Name</button>
             </form>
+            
+            <div class="attendees-list">
+                <h4>Other bookings</h4>
+                <p class="attendees-subtitle">Other families that have booked - Their name and Mass since the date was what was clicked</p>
+                ${attendees.length > 0 ? 
+                    attendees.map(attendee => `
+                        <div class="attendee-item">
+                            <div class="attendee-name">${attendee.name}</div>
+                            <div class="attendee-mass">Mass: ${attendee.mass}</div>
+                        </div>
+                    `).join('') : 
+                    '<div class="no-attendees">No other families have signed up yet. Be the first!</div>'
+                }
+            </div>
         `;
         
         // Add form submit handler
