@@ -66,7 +66,7 @@ class ThanksgivingCalendar {
                 <div class="month">${sunday.toLocaleDateString('en-US', { month: 'short' })}</div>
                 <div class="attendees">
                     ${attendees.length > 0 ? 
-                        `${attendees.length} attending<span class="attendee-count">${attendees.length}</span>` : 
+                        `${attendees.length} bookings<span class="attendee-count">${attendees.length}</span>` : 
                         'No bookings yet'}
                 </div>
             `;
@@ -151,8 +151,7 @@ class ThanksgivingCalendar {
             </form>
             
             <div class="attendees-list">
-                <h4>Other bookings</h4>
-                <p class="attendees-subtitle">Other families that have booked and their respective Masses</p>
+                <h4>Other bookings:</h4>
                 ${attendees.length > 0 ? 
                     attendees.map(attendee => `
                         <div class="attendee-item">
@@ -160,7 +159,7 @@ class ThanksgivingCalendar {
                             <div class="attendee-mass">Mass: ${attendee.mass}</div>
                         </div>
                     `).join('') : 
-                    '<div class="no-attendees">No other families have signed up yet. Be the first!</div>'
+                    '<div class="no-attendees">No other families have booked this Sunday. Be the first!</div>'
                 }
             </div>
         `;
