@@ -64,6 +64,11 @@ app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'index.html'));
 });
 
+// Health check endpoint for Heroku
+app.get('/health', (req, res) => {
+    res.json({ status: 'OK', timestamp: new Date().toISOString() });
+});
+
 // Get all calendar data
 app.get('/api/calendar', (req, res) => {
     try {
@@ -285,9 +290,22 @@ app.get('/api/csv/download/:filename', (req, res) => {
     }
 });
 
+// Error handling middleware
+app.use((err, req, res, next) => {
+    console.error(err.stack);
+    res.status(500).json({ error: 'Something went wrong!' });
+});
+
+// 404 handler
+app.use((req, res) => {
+    res.status(404).json({ error: 'Route not found' });
+});
+
 app.listen(PORT, () => {
-    console.log(`🚀 Thanksgiving Calendar Server running on http://localhost:${PORT}`);
+    console.log(`🚀 Thanksgiving Calendar Server running on port ${PORT}`);
     console.log(`📊 API Endpoints:`);
+    console.log(`   GET  / - Main application`);
+    console.log(`   GET  /health - Health check`);
     console.log(`   GET  /api/calendar - Get all data`);
     console.log(`   GET  /api/calendar/public - Get public data (no phones)`);
     console.log(`   POST /api/attendee - Add new attendee`);
