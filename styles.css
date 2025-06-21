@@ -26,14 +26,14 @@ body {
 .header h1 {
     font-size: 2.5rem;
     font-weight: 700;
-    color: #8B4513;
+    color: #1e40af;
     margin-bottom: 10px;
     text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
 }
 
 .header p {
     font-size: 1.1rem;
-    color: #666;
+    color: #374151;
     font-weight: 400;
 }
 
@@ -52,12 +52,12 @@ body {
 
 .calendar-header h2 {
     font-size: 1.8rem;
-    color: #8B4513;
+    color: #1e40af;
     margin-bottom: 10px;
 }
 
 .calendar-header p {
-    color: #666;
+    color: #374151;
     font-size: 1rem;
 }
 
@@ -82,14 +82,32 @@ body {
 
 .calendar-day:hover {
     transform: translateY(-5px);
-    box-shadow: 0 10px 25px rgba(139, 69, 19, 0.2);
-    border-color: #D2691E;
+    box-shadow: 0 10px 25px rgba(30, 64, 175, 0.2);
+    border-color: #3b82f6;
+}
+
+/* Calendar day with no bookings */
+.calendar-day.no-bookings {
+    background: linear-gradient(145deg, #ffffff, #f8fafc);
+    border-color: #e2e8f0;
+}
+
+/* Calendar day with some bookings (1-2 people) */
+.calendar-day.has-bookings {
+    background: linear-gradient(145deg, #eff6ff, #dbeafe);
+    border-color: #93c5fd;
+}
+
+/* Calendar day with many bookings (3+ people) */
+.calendar-day.many-bookings {
+    background: linear-gradient(145deg, #dbeafe, #bfdbfe);
+    border-color: #3b82f6;
 }
 
 .calendar-day.selected {
-    background: linear-gradient(145deg, #D2691E, #CD853F);
+    background: linear-gradient(145deg, #1e40af, #3b82f6);
     color: white;
-    border-color: #8B4513;
+    border-color: #1e3a8a;
 }
 
 .calendar-day .date {
@@ -186,7 +204,7 @@ body {
 }
 
 .attendees-list h4 {
-    color: #8B4513;
+    color: #1e40af;
     font-size: 1.2rem;
     margin-bottom: 8px;
     font-weight: 600;

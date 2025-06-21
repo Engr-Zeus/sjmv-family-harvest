@@ -52,13 +52,22 @@ class ThanksgivingCalendar {
             dayElement.className = 'calendar-day';
             dayElement.dataset.date = dateKey;
             
+            // Add booking status classes
+            if (attendees.length === 0) {
+                dayElement.classList.add('no-bookings');
+            } else if (attendees.length <= 2) {
+                dayElement.classList.add('has-bookings');
+            } else {
+                dayElement.classList.add('many-bookings');
+            }
+            
             dayElement.innerHTML = `
                 <div class="date">${sunday.getDate()}</div>
                 <div class="month">${sunday.toLocaleDateString('en-US', { month: 'short' })}</div>
                 <div class="attendees">
                     ${attendees.length > 0 ? 
                         `${attendees.length} attending<span class="attendee-count">${attendees.length}</span>` : 
-                        'No one yet'}
+                        'No bookings yet'}
                 </div>
             `;
             
@@ -143,7 +152,7 @@ class ThanksgivingCalendar {
             
             <div class="attendees-list">
                 <h4>Other bookings</h4>
-                <p class="attendees-subtitle">Other families that have booked - Their name and Mass since the date was what was clicked</p>
+                <p class="attendees-subtitle">Other families that have booked and their respective Masses</p>
                 ${attendees.length > 0 ? 
                     attendees.map(attendee => `
                         <div class="attendee-item">
