@@ -1,0 +1,28 @@
+{
+  "2024-11-24": [
+    {
+      "name": "John Smith",
+      "mass": "8:00 AM"
+    },
+    {
+      "name": "Mary Johnson",
+      "mass": "10:00 AM"
+    }
+  ],
+  "2024-12-01": [
+    {
+      "name": "David Wilson",
+      "mass": "6:00 AM"
+    }
+  ],
+  "2024-12-08": [
+    {
+      "name": "Sarah Davis",
+      "mass": "6:00 PM"
+    },
+    {
+      "name": "Michael Brown",
+      "mass": "8:00 AM"
+    }
+  ]
+} 
